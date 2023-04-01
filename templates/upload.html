@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRAILLE READER</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+
+  <style>
+
+/* Nav Bar  */
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color:  rgba(122, 117, 117, 0.534);
+  color: white;
+}
+
+.topnav-right {
+  float: right;
+}
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 10px;
+	font-family: 'Montserrat', sans-serif;
+	scroll-behavior: smooth;
+}
+.container {
+	width: 100%;
+	height: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+/* Nav Bar  */
+nav {
+	position: fixed;
+	z-index: 10;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 10%;
+	margin-bottom: 10%;
+	font-family: 'Montserrat', sans-serif;
+	padding: 0 5%;
+	height: 50px;
+	background-color: rgb(84, 97, 84);
+}
+nav .logo {
+	float: left;
+	width: 40%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	font-size: 24px;
+	color: #fff;
+}
+nav .links {
+	float: right;
+	padding: 0;
+	margin: 0;
+	width: 60%;
+	height: 100%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+nav .links li {
+	list-style: none;
+}
+nav .links a {
+	display: block;
+	padding: 1em;
+	font-size: 16px;
+	font-weight: bold;
+	color: #fff;
+	text-decoration: none;
+}
+#nav-toggle {
+	position: absolute;
+	top: -100px;
+}
+nav .icon-burger {
+	display: none;
+	position: absolute;
+	right: 5%;
+	top: 50%;
+	transform: translateY(-50%);
+}
+nav .icon-burger .line {
+	width: 30px;
+	height: 5px;
+	background-color: #fff;
+	margin: 5px;
+	border-radius: 3px;
+	transition: all .3s ease-in-out;
+}
+@media screen and (max-width: 768px) {
+	nav .logo {
+		float: none;
+		width: auto;
+		justify-content: center;
+	}
+	nav .links {
+		float: none;
+		position: fixed;
+		z-index: 9;
+		left: 0;
+		right: 0;
+		top: 100px;
+		bottom: 100%;
+		width: auto;
+		height: auto;
+		flex-direction: column;
+		justify-content: space-evenly;
+		background-color: rgba(0,0,0,.8);
+		overflow: hidden;
+		box-sizing: border-box;
+		transition: all .5s ease-in-out;
+	}
+	nav .links a {
+		font-size: 20px;
+	}
+	nav :checked ~ .links {
+		bottom: 0;
+	}
+	nav .icon-burger {
+		display: block;
+	}
+	nav :checked ~ .icon-burger .line:nth-child(1) {
+		transform: translateY(10px) rotate(225deg);
+	}
+	nav :checked ~ .icon-burger .line:nth-child(3) {
+		transform: translateY(-10px) rotate(-225deg);
+	}
+	nav :checked ~ .icon-burger .line:nth-child(2) {
+		opacity: 0;
+	}
+	
+}
+/* End Nav Bar */
+
+
+/* File upload start */
+
+.file-upload {
+  background-color: #ffffff;
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.file-upload-btn {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  background: #8eaa9b;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #66917b;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.file-upload-btn:hover {
+  background: #72867c;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.file-upload-btn:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+.file-upload-content {
+  display: none;
+  text-align: center;
+}
+
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-upload-wrap {
+  margin-top: 20px;
+  border: 4px dashed #8eb19e;
+  position: relative;
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
+  background-color: #c7f7dd;
+  border: 4px dashed #ffffff;
+}
+
+.image-title-wrap {
+  padding: 0 15px 15px 15px;
+  color: #222;
+}
+
+.drag-text {
+  text-align: center;
+}
+
+.drag-text h3 {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #5c7e6d;
+  padding: 60px 0;
+}
+
+.file-upload-image {
+  max-height: 200px;
+  max-width: 200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.remove-image {
+  width: 200px;
+  margin: 0;
+  color: #fff;
+  background: #cd4535;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #b02818;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.remove-image:hover {
+  background: #c13b2a;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.remove-image:active {
+  border: 0;
+  transition: all .2s ease;
+}
+/* File upload end */
+
+
+/* Footer section  */
+.footer {
+	min-height: 20vh;
+	width: 100%;
+	background-color: black;
+	color: white;
+	flex-direction: column;
+	text-align: center;
+	padding: 5rem;
+}
+.footer .footer-contact {
+	padding: 20px;
+}
+.footer .footer-contact .footer-contact-heading {
+	font-size: 2.5rem;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	margin-bottom: 10px;
+}
+.footer .footer-contact .footer-contact-info {
+	font-size: 1.4rem;
+	padding-top: 10px;
+	letter-spacing: .2rem;
+}
+.footer .footer-social-follow .footer-social-icon a {
+	color: white;
+	font-size: 3rem;
+	margin: .4rem;
+	display: inline-block;
+}
+/* End Footer section  */
+
+@media only screen and (min-width: 768px) {
+    .file-upload {
+      background-color: #ffffff;
+      width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .file-upload-btn {
+      width: 100%;
+      margin: 0;
+      color: #fff;
+      background: #1FB264;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      border-bottom: 4px solid #15824B;
+      transition: all .2s ease;
+      outline: none;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .file-upload-btn:hover {
+      background: #1AA059;
+      color: #ffffff;
+      transition: all .2s ease;
+      cursor: pointer;
+    }
+
+    .file-upload-btn:active {
+      border: 0;
+      transition: all .2s ease;
+    }
+
+    .file-upload-content {
+      display: none;
+      text-align: center;
+    }
+
+    .file-upload-input {
+      position: absolute;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      outline: none;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .image-upload-wrap {
+      margin-top: 20px;
+      border: 4px dashed #1FB264;
+      position: relative;
+    }
+
+    .image-dropping,
+    .image-upload-wrap:hover {
+      background-color: #a8b4ad;
+      border: 4px dashed #ffffff;
+    }
+
+    .image-title-wrap {
+      padding: 0 15px 15px 15px;
+      color: #222;
+    }
+
+    .drag-text {
+      text-align: center;
+    }
+
+    .drag-text h3 {
+      font-weight: 100;
+      text-transform: uppercase;
+      color: #15824B;
+      padding: 60px 0;
+    }
+
+    .file-upload-image {
+      max-height: 200px;
+      max-width: 200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .remove-image {
+      width: 200px;
+      margin: 0;
+      color: #fff;
+      background: #cd4535;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      border-bottom: 4px solid #b02818;
+      transition: all .2s ease;
+      outline: none;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .remove-image:hover {
+      background: #c13b2a;
+      color: #ffffff;
+      transition: all .2s ease;
+      cursor: pointer;
+    }
+
+    .remove-image:active {
+      border: 0;
+      transition: all .2s ease;
+    }
+}
+
+</style>
+<script>
+  function readURL(input) {
+  if (input.files && input.files[0]) {
+
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('.image-upload-wrap').hide();
+
+      $('.file-upload-image').attr('src', e.target.result);
+      $('.file-upload-content').show();
+
+      $('.image-title').html(input.files[0].name);
+    };
+
+    reader.readAsDataURL(input.files[0]);
+
+  } else {
+    removeUpload();
+  }
+}
+
+function removeUpload() {
+  $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+  $('.file-upload-content').hide();
+  $('.image-upload-wrap').show();
+}
+$('.image-upload-wrap').bind('dragover', function () {
+		$('.image-upload-wrap').addClass('image-dropping');
+	});
+	$('.image-upload-wrap').bind('dragleave', function () {
+		$('.image-upload-wrap').removeClass('image-dropping');
+});
+
+</script>
+  </head>
+  <body>
+      <!-- nav-bar  -->
+      <div class="topnav">
+        <a class="active" href="{{url_for('home')}}">HOME</a>
+        <!-- <a href="#news">T2</a>
+        <a href="#contact">T3</a> -->
+        <div class="topnav-right">
+          <a href="{{url_for('upload')}}">Convert</a>
+          <!-- <a href="#about">T3</a> -->
+      </div>
+      </div>
+  
+    <!-- End nav-bar  -->
+  
+    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <div class="file-upload">
+      <form method = "post" action = "/download" enctype="multipart/form-data">
+        <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add TEXT FILE</button>
+
+        <div class="image-upload-wrap">
+          <input class="file-upload-input" type='file' name = "file" onchange="readURL(this);" accept="txt/*" />
+          <div class="drag-text">
+            <h3>Drag and drop a file </h3>
+          </div>
+        </div>
+        <div class="file-upload-content">
+          <!-- <iframe class="file-upload-image" src="#"  /> -->
+          <div class="image-title-wrap">
+            <br>
+            <br><br>
+            <br><br>
+            <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+            <br><br>
+            <input class="file-upload-btn" type="submit" value = "submit">
+        </div>
+        </div>
+      </form>
+    </div>
+    <br><br><br><br><br><br><br><br>
+  <!-- Footer section  -->
+  <footer id="footer" class="footer container">
+    <div class="footer-contact">
+      <h1 class="footer-contact-heading">Contact With Us</h1>
+      <p class="footer-contact-info">Email: v.sivabharathieee@gamil.com</p>
+      <p class="footer-contact-info">Mobile: +91 91509 33839</p>
+    </div>
+<!--     <div class="footer-social-follow"> -->
+<!--       <h1 class="footer-social-follow-heading">Follow Me</h1> -->
+<!--       <div class="footer-social-icon">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram-square"></i></a>
+        <a href="#"><i class="fab fa-behance-square"></i></a>
+        <a href="#"><i class="fab fa-dribbble-square"></i></a>
+      </div> -->
+<!--     </div> -->
+  </footer>
+  <!-- End Footer section  -->
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/main.js"></script>
+  </body>
+</html>
