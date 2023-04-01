@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="/static/css/style.css">
+
+<style>
+    
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #fb771a;
+  color: white;
+}
+
+.topnav-right {
+  float: right;
+}
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 80%;
+  align-items: center;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  text-align: center; 
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #fb771a;;
+  color: white;
+}
+</style>
+</head>
+<body>
+
+    <div class="topnav">
+        <a class="active" href="{{url_for('home')}}">HOME</a>
+        <!-- <a href="#news">T2</a>
+        <a href="#contact">T3</a> -->
+        <div class="topnav-right">
+            <a href="{{url_for('login')}}">LOGIN</a>
+            <!-- <a href="#about">T3</a> -->
+        </div>
+    </div>
+<h1>Patient details</h1>
+
+<table id="customers">
+  <tr>
+    <th>PATIENT ID</th>
+    <th>PATIENT NAME</th>
+    <th>PATIENT AGE</th>
+    <th>VULNERABLE TO ULCER</th>
+    <th>REQUIRED ACTION</th>
+  </tr>
+  <!-- <tr>
+    <td>0</td>
+    <td>
+      <a href="{{url_for('patient')}}" >Rama</a>
+    </td>
+    <td>58</td>
+    <td>45%</td>
+    <td>56%</td>
+  </tr> -->
+  {% for row in data %}
+  <tr>
+    {% for cell in row %}
+    <td>
+      <a href="{{url_for('patient')}}" >{{cell}}</a>
+    </td>
+    {% endfor %}
+  </tr>
+  {% endfor %}
+
+  
+  <!-- <tr>
+    <td>2</td>
+    <td>Menaka</td>
+    <td>65</td>
+    <td>89%</td>
+    <td>Chenge patient very frequently</td>
+  </tr> -->
+</table>
+<!-- <form action="/patient" method="post">
+  <div class="form-group first"> 
+    <br>
+    <br>
+    <br>
+    <h3>ENTER PATIENT ID FOR DETAILED REPORT</h3>
+    
+    <input name = "id" type="text" class="form-control" placeholder="Eg-01" id="username">
+  </div>
+  
+  <input type="submit" value="GENERATE REPORT" class="btn btn-block btn-primary">
+
+</form> -->
+<br>
+<div>
+  {%if text %}
+  
+<h2>GENERATED REPORT</h2>
+<iframe src ="{{url_for('static', filename='txt/dummy.txt')}}" style="background-color:white;" width="100%" height="150px">
+</iframe>
+{%endif%}
+</div>
+</body>
+</html>
